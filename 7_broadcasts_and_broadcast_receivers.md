@@ -11,32 +11,32 @@ Video: https://www.youtube.com/watch?v=HDVyFsFUuVg&list=PLQkwcJG4YTCSVDhww92llY3
 - Dynamic Receiver - receivers that only run while your app is running
 - Reacting to android system broadcasts:
 	- Example: react to when airplane mode is toggled
-	  ```kotlin
-	  class AirPlaneModeReceiver: BroadcastReceiver() {
-		  override fun onReceive(context: Context?, intent: Intent?) {
-			if (intent?.action == Intent.ACTION_AIRPLANE_MODE_CHANGED) {
-				val isTurnedOn = Settings.Global.getInt(
-					context?.contentResolver,
-					Settings.Global.AIRPLANE_MODE_ON
-				) != 0
-				println("Is airplane mode enabled? $isTurnedOn")
-			}
-		  }
+```kotlin
+  class AirPlaneModeReceiver: BroadcastReceiver() {
+	  override fun onReceive(context: Context?, intent: Intent?) {
+		if (intent?.action == Intent.ACTION_AIRPLANE_MODE_CHANGED) {
+			val isTurnedOn = Settings.Global.getInt(
+				context?.contentResolver,
+				Settings.Global.AIRPLANE_MODE_ON
+			) != 0
+			println("Is airplane mode enabled? $isTurnedOn")
+		}
 	  }
+  }
 
-	// now register the receiver in your activity
-	private val airPlaneModeReceiver = AirPlaneModeReceiver()
-	registerReceiver(
-		airPlaneModeReceiver,
-		IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-	)
-	
-	// unregister the receiver when its not needed anymore (like onDestroy)
-	override fun onDestroy() {
-		super.onDestroy()
-		unregisterReceiver(airPlaneModeReceiver)
-	}
-		```
+// now register the receiver in your activity
+private val airPlaneModeReceiver = AirPlaneModeReceiver()
+registerReceiver(
+	airPlaneModeReceiver,
+	IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+)
+
+// unregister the receiver when its not needed anymore (like onDestroy)
+override fun onDestroy() {
+	super.onDestroy()
+	unregisterReceiver(airPlaneModeReceiver)
+}
+```
 - Static Receiver - used when your app is not running and needs to receive a broadcast
 	- Has more restrictions, like the "device is booted" intent
 	- Can drain device's battery life so that's why there are restrictions
