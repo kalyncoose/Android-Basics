@@ -1,0 +1,32 @@
+# View Models & Configuration Changes
+Video: https://www.youtube.com/watch?v=9sqvBydNJSg&list=PLQkwcJG4YTCSVDhww92llY3CAnc_vUhsm&index=3
+- Architectural Patterns help for consistency in the app code: https://developer.android.com/topic/architecture
+- MVVM = Model, View, View Model
+	- View = UI of the app
+	- View Model = Bridge between UI and Data (reformat data for the UI, process actions, etc.)
+	- Model = Data for the app (database/API)
+	- General flow
+		- **View** --( UI actions )--> **View Model** --( Updates model )--> **Model**
+		- **View** <--( Notifies UI )-- **View Model** <--( Notifies view model )-- **Model**
+	- Generally there's one View Model per screen so that it handles everything on that screen
+	- A View Model is usually just a `class` with functions that the UI can use
+- Configuration Change: https://developer.android.com/guide/topics/resources/runtime-changes
+	- When a user changes an Android setting and it affects the app and any current activities
+	- Examples:
+		- Change device orientation
+		- Change device language
+		- Change device theme
+	- Re-creates the current activity on a configuration change
+		- Lifecycle: pauses, stops, destroys, creates, starts, resumes
+			- Now the activity starts with the new configuration (e.g. new orientation)
+- Google introduced a new type of View Model to handle retaining state during Configuration Changes: https://developer.android.com/topic/libraries/architecture/viewmodel
+	- Make sure to set a `class` as `ViewModel` from `androidx.lifecycle.ViewModel`
+		- Example: `class ContactsViewModel: ViewModel() {}`
+	- The new Android `ViewModel` will not be destroyed with the activity for configuration changes, but will be destroyed if the user pops the activity from the back stack
+	- Initializing a `ViewModel` correctly inside the UI can be done two ways:
+		- `private val viewModel by viewModels<ContactsViewModel>()`
+		- If you don't have direct access to an activity, then you need a special dependency to inject a `ViewModel` into a Compose component using `androidx.lifecycle:lifecycle-viewmodel-compose
+			- `val viewModel = viewModel<ContactsViewModel>()`
+	- Now if you want to pass data into the `ViewModel` then you need a View Model Factory
+		- Some helper libraries exist to make this easier/generated
+	- Note: iOS does not have the configuration changes issue so View Models do not recreate
