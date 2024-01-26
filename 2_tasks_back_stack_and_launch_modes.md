@@ -1,0 +1,23 @@
+# Tasks, Back Stack & Launch Modes
+Video: https://www.youtube.com/watch?v=Z0AzoFOiH9c&list=PLQkwcJG4YTCSVDhww92llY3CAnc_vUhsm&index=2
+- Back Stack: https://developer.android.com/guide/components/activities/tasks-and-back-stack
+	- Every new activity/screen loaded gets pushed to the back stack
+	- Pressing the back button removes/pops the last activity and user returns to the prior one
+- Task: https://developer.android.com/guide/components/activities/tasks-and-back-stack
+	- Represents a collection of screens or activities that belong together and form a back stack together
+	- Multiple tasks can be running at once (going from browser screen to an Instagram screen)
+- Launch Modes: https://developer.android.com/guide/components/activities/tasks-and-back-stack#ManifestForTasks
+	- Allows you to set the behavior when a new activity gets pushed on the back stack
+	- Standard
+		- Default mode
+		- Typical usage
+	- Single Top
+		- Does not add another activity to the back stack in certain cases
+		- Pretty commonly useful
+	- Single Task
+		- New activities are launched in a completely separate task
+		- Example: Opening a link in Instagram and it launches a website using an in-app browser window instead of sending you to browser app separately
+	- Single Instance
+		- New activity launched is completely isolated inside the same task so it does not interfere with the existing back stack
+		- Example: Payment activity in a PayPal app is launched in Single Instance mode by another app
+		- Not very common, used for specific situations
